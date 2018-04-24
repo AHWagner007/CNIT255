@@ -929,10 +929,6 @@ public class PersonalInfo {
                  WrongInfo.showMessageDialog(null, "Username taken");
                  return; //ends method
             }
-            if (Email.getText().equals(AllMembers.get(j).getInfo().getEmail())){//Checks to make sure Email isn't taken
-                 WrongInfo.showMessageDialog(null, "Email taken");
-                 return; //ends method
-            }
         }
          if(!Password.equals(NewConfirmPassword.getText())){
              WrongInfo.showMessageDialog(this, "Your passwords don't match!");
