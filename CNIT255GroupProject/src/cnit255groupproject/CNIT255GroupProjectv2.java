@@ -16,6 +16,7 @@ public class CNIT255GroupProjectv2 extends javax.swing.JFrame {
     * @author Andy
     */
     ArrayList<User> AllUsers = new ArrayList<>(1);
+    ArrayList<Member> AllMembers = new ArrayList<>(1);
     ArrayList<User> BannedUsers = new ArrayList<>(1);
     ArrayList<Messages> MessageHistory = new ArrayList<>(1);
     
@@ -74,6 +75,10 @@ public class CNIT255GroupProjectv2 extends javax.swing.JFrame {
             CurrentUser = Current;
         }
         
+        public Chatroom(){
+            
+        }
+        
     }
         
     public class Messages { //Message class. Named with an s due to GUI conflict
@@ -129,10 +134,12 @@ public class CNIT255GroupProjectv2 extends javax.swing.JFrame {
     public class Member extends User{
         protected String password;
         protected boolean logged;
+        protected PersonalInfo PI;
     
-        public Member(String Name, String Password){
+        public Member(String Name, String Password, PersonalInfo Info){
             super(Name);
             password = Password;
+            PI = Info;
         }
         
         public String getpassword(){
@@ -187,8 +194,8 @@ public class CNIT255GroupProjectv2 extends javax.swing.JFrame {
     }
     public class Admin extends Member{
         
-         public Admin(String Name, String Password){
-            super(Name, Password);
+         public Admin(String Name, String Password, PersonalInfo Info){
+            super(Name, Password, Info);
         }
         
         public void banUser(User del){
@@ -213,7 +220,6 @@ public class CNIT255GroupProjectv2 extends javax.swing.JFrame {
  * @author Will
  */
 public class PersonalInfo {
-    public class info {
 	String email;
 	String firstname;
 	String lastname;
@@ -226,7 +232,7 @@ public class PersonalInfo {
    	String country;
 
 	
-	public void infos(String first, String last, String em, String ag, String add1, String add2, String zip, String city1, String state1, String country1)
+	public PersonalInfo(String first, String last, String em, String ag, String add1, String add2, String zip, String city1, String state1, String country1)
 	{
 		add1 = streetAddress;
         		add2 = streetAddress2;
@@ -327,9 +333,6 @@ public class PersonalInfo {
 	age= ag;
 	}
 }
-	
-
-}
 
     // </editor-fold>
     //<editor-fold defaultstate="collapsed" desc="GUI">
@@ -343,6 +346,10 @@ public class PersonalInfo {
     
     private void initComponents() {
 
+        PersonalInfo Generic = new PersonalInfo("John","Doe","19","test@test.com","1600 Pennsylvania Ave NW", "", "20500", "Washington DC", "District of Colombia", "USA");
+        AllMembers.add(new Member("Asa", "123", Generic));
+        AllMembers.add(new Member("Larry","password", Generic));
+        AllMembers.add(new Admin("Andy","Passw0rd", Generic));
         DExistingLogin = new javax.swing.JDialog();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -812,10 +819,14 @@ public class PersonalInfo {
     
     private void ExistingLoginActionPerformed(java.awt.event.ActionEvent evt) {
         String Username = LoginUsername.getText(),Password = LoginPassword.getText();
-        for(int i=0;i<AllUsers.size();i++){ //Checks to make sure that the username isn't taken
-            if (Username.equals(AllUsers.get(i).getusername())){ //searches to see if the username exists
+        for(int i=0;i<AllMembers.size();i++){ //Checks to make sure that the username isn't taken
+            if (Username.equals(AllMembers.get(i).getusername())&&Password.equals(AllMembers.get(i).getpassword())){ //searches to see if the username exists
                  //if() When list for passwords is created it will check if the password is correct
                  Room.setCurrentUser(Username);
+                 Message.setEnabled(true);
+                 Send.setEnabled(true);
+                 AllUsers.add(new User(Username));
+                 DGuestLogin.dispose();
             }
             else{ //displays WrongLogin dialoge
                 WrongLogin.showMessageDialog(this,"Wrong Username or Password");
@@ -872,6 +883,7 @@ public class PersonalInfo {
         for(int i=0;i<AllUsers.size();i++){ //Checks to make sure that the username isn't taken
             if (Username.equals(AllUsers.get(i).getusername())){ //searches to see if the username exists
                  //if() When password requirements are created it will check if the password is correct
+                 
             }
         WrongInfo.showMessageDialog(this, "Enter In Real Errors later");
         }
