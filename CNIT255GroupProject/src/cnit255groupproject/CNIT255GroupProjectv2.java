@@ -8,16 +8,26 @@ import java.util.*;
 import javax.swing.JOptionPane;
 
 
-public class CNIT255GroupProject extends javax.swing.JFrame {
+public class CNIT255GroupProjectv2 extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Classes">
     /**
     *
     * @author Andy
     */
-    ArrayList<Message> MessageHistory = new ArrayList<>(1);
     ArrayList<User> AllUsers = new ArrayList<>(1);
     ArrayList<User> BannedUsers = new ArrayList<>(1);
+    ArrayList<Messages> MessageHistory = new ArrayList<>(1);
+    
+    public void ReloadMessages(){
+        Chatbox.setText("");
+        for (int ctr = 0; ctr < MessageHistory.size(); ctr++)
+        {
+            Chatbox.append(MessageHistory.get(ctr).getContent());
+            Chatbox.append("\n");
+        }
+    }
+    
     interface LoggedIn { //interface for the User list stuff
         void BanUser(String ID);
         void ShowUserList();
@@ -25,7 +35,7 @@ public class CNIT255GroupProject extends javax.swing.JFrame {
     }
         
     public class Chatroom implements LoggedIn { //Chatroom class
-        
+        protected String CurrentUser;
         @Override
         public void BanUser(String Username){ //Ban a user
             for(int ctr = 0; ctr<AllUsers.size();ctr++) //loops through all users
@@ -50,20 +60,37 @@ public class CNIT255GroupProject extends javax.swing.JFrame {
         public void DisplayMessages(){
             for (int ctr = 0; ctr<MessageHistory.size();ctr++)
             {
-                //will also get code. Will do pretty much what ShowUserList does, just showing Messages/Who sent it
+                Chatbox.append(MessageHistory.get(ctr).getContent());
+                Chatbox.append("\n");
             }
+        }
+        
+        public void SendMessage(Messages ToSend){
+            MessageHistory.add(ToSend);
+            ReloadMessages();
+        }
+        
+        public void setCurrentUser(String Current){
+            CurrentUser = Current;
         }
         
     }
         
-    public class Message { //empty (for now) message class. need the shell at least for the MessageHistory Array List
-        String Content;
+    public class Messages { //Message class. Named with an s due to GUI conflict
+        String Content; //Its purpose should be obvious
         
         public void setContent(String Message){
             Content = Message;
         }
         public String getContent(){
             return Content;
+        }
+        
+        public Messages(){
+            Content = "";
+        }
+        public Messages(String Message){
+            Content = Message;
         }
     }
     
@@ -166,19 +193,19 @@ public class CNIT255GroupProject extends javax.swing.JFrame {
         
         public void banUser(User del){
             del.setbannedStatus(true);
-            Message banned = new Message();
-            banned.setContent("User " + del.getusername() + " has been banned.");
+            Messages banned = new Messages("User " + del.getusername() + " has been banned.");
             MessageHistory.add(banned);
+            ReloadMessages();
         }
         public void unbanUser(User del){
             del.setbannedStatus(false);
-            Message unbanned = new Message();
-            unbanned.setContent("User " + del.getusername() + " has been unbanned.");
+            Messages unbanned = new Messages("User " + del.getusername() + " has been unbanned.");
             MessageHistory.add(unbanned);
+            ReloadMessages();
         }
-        public void deleteMessage(Message bad){
+        public void deleteMessage(Messages bad){
             bad.setContent("Message has been deleted.");
-            MessageHistory.add(bad);
+            ReloadMessages();
         }
     }
     /**
@@ -310,7 +337,7 @@ public class PersonalInfo {
  *
  * @author Asa
  */
-    public CNIT255GroupProject() {
+    public CNIT255GroupProjectv2() {
         initComponents();
     }
     
@@ -747,6 +774,7 @@ public class PersonalInfo {
     private javax.swing.JLabel lblNewPassword;
     private javax.swing.JLabel lblNewPasswordConfirm;
     private javax.swing.JLabel lblNewUsername;
+    Chatroom Room = new Chatroom();
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="GUI Button Presses">
     /**
@@ -773,6 +801,7 @@ public class PersonalInfo {
             Send.setEnabled(true);
             AllUsers.add(new User(Username));
             DGuestLogin.dispose();
+            Room.setCurrentUser(Username);
         }
         
     }
@@ -786,6 +815,7 @@ public class PersonalInfo {
         for(int i=0;i<AllUsers.size();i++){ //Checks to make sure that the username isn't taken
             if (Username.equals(AllUsers.get(i).getusername())){ //searches to see if the username exists
                  //if() When list for passwords is created it will check if the password is correct
+                 Room.setCurrentUser(Username);
             }
             else{ //displays WrongLogin dialoge
                 WrongLogin.showMessageDialog(this,"Wrong Username or Password");
@@ -797,9 +827,17 @@ public class PersonalInfo {
     
     private void SendActionPerformed(java.awt.event.ActionEvent evt) { //Sends message to Message class
         String Mess = Message.getText();
-        //.getContent(Mess);
-        Chatbox.append(Mess);//holder code
+        Mess = Room.CurrentUser+": "+Mess+"\r";
+        Messages Note = new Messages(Mess);
         Message.setText("");
+        //.getContent(Mess);
+              
+        //Chatbox.append(Room.CurrentUser);
+        //Chatbox.append(Mess);//holder code
+        //Chatbox.append("\n");
+        
+        // Message.setText("");
+        Room.SendMessage(Note);
     }
     
     private void MLogoffActionPerformed(java.awt.event.ActionEvent evt) {
@@ -845,7 +883,7 @@ public class PersonalInfo {
     public static void main(String[] args) { //main method. Should just run the GUI?
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                CNIT255GroupProject GUI = new CNIT255GroupProject();
+                CNIT255GroupProjectv2 GUI = new CNIT255GroupProjectv2();
                 GUI.setVisible(true);
             }
         });
