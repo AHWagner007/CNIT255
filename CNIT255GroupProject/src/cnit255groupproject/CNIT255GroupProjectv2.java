@@ -111,7 +111,6 @@ public class CNIT255GroupProjectv2 extends javax.swing.JFrame {
     public User(String name){
         username = name;
     }
-    
         public String getusername(){
             return username;
         }
@@ -140,6 +139,10 @@ public class CNIT255GroupProjectv2 extends javax.swing.JFrame {
             super(Name);
             password = Password;
             PI = Info;
+        }
+        
+        public PersonalInfo getInfo(){
+            return PI;
         }
         
         public String getpassword(){
@@ -221,29 +224,25 @@ public class CNIT255GroupProjectv2 extends javax.swing.JFrame {
  */
 public class PersonalInfo {
 	String email;
-	String firstname;
-	String lastname;
+	String name;
 	String age;
 	String streetAddress;
-    	String streetAddress2;
     	String city;
     	String state;
     	String zipCode;
    	String country;
 
 	
-	public PersonalInfo(String first, String last, String em, String ag, String add1, String add2, String zip, String city1, String state1, String country1)
+	public PersonalInfo(String Name, String em, String ag, String add1, String zip, String city1, String state1, String country1)
 	{
-		add1 = streetAddress;
-        		add2 = streetAddress2;
-        		city1 = city;
-        		state1 = state;
-        		zip =zipCode;
-        		country1 = country;
-		ag = age;
-		em = email;
-		first = firstname;
-		last = lastname;
+		streetAddress= add1;
+        		city = city1;
+        		state = state1;
+        		zipCode = zip;
+        		country = country1;
+		age = ag;
+		email = em;
+		name = Name;
 	}
 
 	 public String getStreetAddress()
@@ -255,15 +254,6 @@ public class PersonalInfo {
    	 {
         	add1 = streetAddress;
    	 }
-    	public String getStreetAddress2()
-    	{
-       	 return streetAddress2;
-   	 }
-
-   	 public void setStreetAddress2(String add2)
-    	{
-        	add2 = streetAddress2;
-    	}
     	public String getCity()
     	{
       	  return city;
@@ -297,22 +287,13 @@ public class PersonalInfo {
         	country1 = country;
     	}
 
-	public String getLastName()
-    	{
-       	 return lastname;
-    	}
-    	public void setLastName(String last)
-    	{
-        	lastname = last;
-    	}
-
-    	public String getFirstName()
+    	public String getName()
    	 {
-        	return firstname;
+        	return name;
    	 }
-    	public void setFirstName(String first)
+    	public void setName(String first)
     	{
-       	 firstname = first;
+       	 name = first;
     	}
 	public String getEmail()
 	{
@@ -342,14 +323,14 @@ public class PersonalInfo {
  */
     public CNIT255GroupProjectv2() {
         initComponents();
+        PersonalInfo Generic = new PersonalInfo("John Doe","19","test@test.com","1600 Pennsylvania Ave NW", "20500", "Washington DC", "District of Colombia", "USA");
+        AllMembers.add(new Member("Asa", "123", Generic));
+        AllMembers.add(new Member("Larry","password", Generic));
+        AllMembers.add(new Admin("Andy","Passw0rd", Generic));
     }
     
     private void initComponents() {
 
-        PersonalInfo Generic = new PersonalInfo("John","Doe","19","test@test.com","1600 Pennsylvania Ave NW", "", "20500", "Washington DC", "District of Colombia", "USA");
-        AllMembers.add(new Member("Asa", "123", Generic));
-        AllMembers.add(new Member("Larry","password", Generic));
-        AllMembers.add(new Admin("Andy","Passw0rd", Generic));
         DExistingLogin = new javax.swing.JDialog();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -382,6 +363,14 @@ public class PersonalInfo {
         Address = new javax.swing.JTextField();
         Age = new javax.swing.JTextField();
         Email = new javax.swing.JTextField();
+        lblCity = new javax.swing.JLabel();
+        lblState = new javax.swing.JLabel();
+        lblCountry = new javax.swing.JLabel();
+        lblZipCode = new javax.swing.JLabel();
+        City = new javax.swing.JTextField();
+        State = new javax.swing.JTextField();
+        Country = new javax.swing.JTextField();
+        Zip = new javax.swing.JTextField();
         WrongLogin = new javax.swing.JOptionPane();
         WrongInfo = new javax.swing.JOptionPane();
         Banned = new javax.swing.JOptionPane();
@@ -395,7 +384,7 @@ public class PersonalInfo {
         MenuMember = new javax.swing.JMenuItem();
         MenuGuest = new javax.swing.JMenuItem();
         MenuCreate = new javax.swing.JMenuItem();
-        MLogoff = new javax.swing.JMenu();
+        MLogoff = new javax.swing.JMenuItem();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Username");
@@ -524,13 +513,13 @@ public class PersonalInfo {
         );
 
         lblNewUsername.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblNewUsername.setText("Username");
+        lblNewUsername.setText("*Username");
 
         lblNewPassword.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblNewPassword.setText("Password");
+        lblNewPassword.setText("*Password");
 
         lblNewPasswordConfirm.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblNewPasswordConfirm.setText("Confirm Password");
+        lblNewPasswordConfirm.setText("*Confirm Password");
 
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -560,7 +549,19 @@ public class PersonalInfo {
         lblAge.setText("Age");
 
         lblEmail.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblEmail.setText("Email");
+        lblEmail.setText("*Email");
+        
+        lblCity.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblCity.setText("City");
+
+        lblState.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblState.setText("State");
+
+        lblCountry.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblCountry.setText("Country");
+
+        lblZipCode.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblZipCode.setText("Zip Code");
 
         javax.swing.GroupLayout DNewUserLayout = new javax.swing.GroupLayout(DNewUser.getContentPane());
         DNewUser.getContentPane().setLayout(DNewUserLayout);
@@ -569,9 +570,13 @@ public class PersonalInfo {
             .addGroup(DNewUserLayout.createSequentialGroup()
                 .addGroup(DNewUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(DNewUserLayout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addComponent(jLabel6))
+                    .addGroup(DNewUserLayout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addGroup(DNewUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(DNewUserLayout.createSequentialGroup()
+                                .addGap(5, 5, 5)
                                 .addGroup(DNewUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblNewPasswordConfirm)
                                     .addComponent(lblNewUsername)
@@ -579,7 +584,11 @@ public class PersonalInfo {
                                     .addComponent(lblName)
                                     .addComponent(lblAddress)
                                     .addComponent(lblAge)
-                                    .addComponent(lblEmail))
+                                    .addComponent(lblEmail)
+                                    .addComponent(lblCity)
+                                    .addComponent(lblState)
+                                    .addComponent(lblZipCode)
+                                    .addComponent(lblCountry))
                                 .addGap(18, 18, 18)
                                 .addGroup(DNewUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(NewPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
@@ -588,18 +597,19 @@ public class PersonalInfo {
                                     .addComponent(Name)
                                     .addComponent(Address)
                                     .addComponent(Age)
-                                    .addComponent(Email, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                    .addComponent(Email, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(City)
+                                    .addComponent(State)
+                                    .addComponent(Country)
+                                    .addComponent(Zip)))
                             .addGroup(DNewUserLayout.createSequentialGroup()
                                 .addComponent(BCreate)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(NewCancel))))
-                    .addGroup(DNewUserLayout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addComponent(jLabel6)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                                .addComponent(NewCancel)))))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
-        DNewUserLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {NewConfirmPassword, NewPassword, NewUsername});
+        DNewUserLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {Address, Age, City, Country, Email, Name, NewConfirmPassword, NewPassword, NewUsername, State, Zip});
 
         DNewUserLayout.setVerticalGroup(
             DNewUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -626,7 +636,23 @@ public class PersonalInfo {
                 .addGroup(DNewUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Address, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(DNewUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCity, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(City, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(DNewUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblState, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(State, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(DNewUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblZipCode, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Zip, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(DNewUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Country, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(DNewUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAge, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Age, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -634,14 +660,14 @@ public class PersonalInfo {
                 .addGroup(DNewUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Email, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addGap(37, 37, 37)
                 .addGroup(DNewUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BCreate)
                     .addComponent(NewCancel))
                 .addGap(29, 29, 29))
         );
 
-        DNewUserLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {Address, Age, Email, Name, NewConfirmPassword, NewPassword, NewUsername});
+        DNewUserLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {Address, Age, City, Country, Email, Name, NewConfirmPassword, NewPassword, NewUsername, State, Zip});
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -699,7 +725,7 @@ public class PersonalInfo {
                 MLogoffActionPerformed(evt);
             }
         });
-        LoginBar.add(MLogoff);
+        Login.add(MLogoff);
 
         setJMenuBar(LoginBar);
 
@@ -771,7 +797,7 @@ public class PersonalInfo {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JMenu MLogoff;
+    private javax.swing.JMenuItem MLogoff;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblAddress;
@@ -781,6 +807,14 @@ public class PersonalInfo {
     private javax.swing.JLabel lblNewPassword;
     private javax.swing.JLabel lblNewPasswordConfirm;
     private javax.swing.JLabel lblNewUsername;
+    private javax.swing.JTextField City;
+    private javax.swing.JTextField Country;
+    private javax.swing.JTextField State;
+    private javax.swing.JTextField Zip;
+    private javax.swing.JLabel lblCity;
+    private javax.swing.JLabel lblCountry;
+    private javax.swing.JLabel lblState;
+    private javax.swing.JLabel lblZipCode;
     Chatroom Room = new Chatroom();
 //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="GUI Button Presses">
@@ -795,21 +829,25 @@ public class PersonalInfo {
     
     private void BGuestLoginActionPerformed(java.awt.event.ActionEvent evt) {
        String Username = GuestUsername.getText();
-       boolean allowed = true;
-        for(int i=0;i<AllUsers.size();i++){ //Checks to make sure that the username isn't taken
+        for(int i=0;i<AllUsers.size();i++){ //Checks to make sure that the username isn't taken in UserList
             if (Username.equals(AllUsers.get(i).getusername())){
                  WrongInfo.showMessageDialog(null, "Username taken");
-                 allowed = false;
                  return; //ends method
             }
         }
-        if(allowed == true){ //when 'allowed == true' then the Guest user is logged in, the message GUI is enabled, and the Guest Login is exited
+        for(int j=0;j<AllMembers.size();j++){ //Checks to make sure that the username isn't taken in MemberList
+            if (Username.equals(AllMembers.get(j).getusername())){
+                 WrongInfo.showMessageDialog(null, "Username taken");
+                 return; //ends method
+            }
+        }
+         //when 'allowed == true' then the Guest user is logged in, the message GUI is enabled, and the Guest Login is exited
             Message.setEnabled(true);
             Send.setEnabled(true);
             AllUsers.add(new User(Username));
             DGuestLogin.dispose();
             Room.setCurrentUser(Username);
-        }
+    
         
     }
     
@@ -820,15 +858,15 @@ public class PersonalInfo {
     private void ExistingLoginActionPerformed(java.awt.event.ActionEvent evt) {
         String Username = LoginUsername.getText(),Password = LoginPassword.getText();
         for(int i=0;i<AllMembers.size();i++){ //Checks to make sure that the username isn't taken
-            if (Username.equals(AllMembers.get(i).getusername())&&Password.equals(AllMembers.get(i).getpassword())){ //searches to see if the username exists
-                 //if() When list for passwords is created it will check if the password is correct
+            if (Username.equals(AllMembers.get(i).getusername())&&Password.equals(AllMembers.get(i).getpassword())){ //searches to see if the username exists and the password is correct
                  Room.setCurrentUser(Username);
                  Message.setEnabled(true);
                  Send.setEnabled(true);
                  AllUsers.add(new User(Username));
-                 DGuestLogin.dispose();
+                 DExistingLogin.dispose();
+                 return;
             }
-            else{ //displays WrongLogin dialoge
+            else if (i==AllMembers.size()-1){ //displays WrongLogin dialoge
                 WrongLogin.showMessageDialog(this,"Wrong Username or Password");
             }
         }
@@ -841,19 +879,14 @@ public class PersonalInfo {
         Mess = Room.CurrentUser+": "+Mess+"\r";
         Messages Note = new Messages(Mess);
         Message.setText("");
-        //.getContent(Mess);
-              
-        //Chatbox.append(Room.CurrentUser);
-        //Chatbox.append(Mess);//holder code
-        //Chatbox.append("\n");
-        
-        // Message.setText("");
         Room.SendMessage(Note);
     }
     
     private void MLogoffActionPerformed(java.awt.event.ActionEvent evt) {
-        System.exit(0);
-        //Will remove User from the chat and exit the Chatroom gui
+                 Room.setCurrentUser("");
+                 Message.setEnabled(false);
+                 Send.setEnabled(false);
+        //Will remove User from the chat and disable the message box and send button
     }
     
     private void MenuMemberActionPerformed(java.awt.event.ActionEvent evt) {
@@ -874,19 +907,46 @@ public class PersonalInfo {
     
     private void MenuCreateActionPerformed(java.awt.event.ActionEvent evt) {
         DNewUser.pack(); //Generates and displays the Create Member Dialoge
-        DNewUser.setSize(400,500);
+        DNewUser.setSize(400,700);
         DNewUser.setVisible(true);
     }
     
     private void BCreateActionPerformed(java.awt.event.ActionEvent evt) {
-       String Username = LoginUsername.getText(),Password = LoginPassword.getText();
-        for(int i=0;i<AllUsers.size();i++){ //Checks to make sure that the username isn't taken
-            if (Username.equals(AllUsers.get(i).getusername())){ //searches to see if the username exists
-                 //if() When password requirements are created it will check if the password is correct
-                 
+       String Username = NewUsername.getText(),Password = NewPassword.getText();
+       if((Username.equals("") || (Password.equals("")) || NewConfirmPassword.getText().equals("") || Email.getText().equals(""))){
+           WrongInfo.showMessageDialog(this, "Please fill out all required(*) fields!"); 
+       } 
+       else{
+
+        for(int i=0;i<AllUsers.size();i++){ //Checks to make sure that the username isn't taken in UserList
+            if (Username.equals(AllUsers.get(i).getusername())){
+                 WrongInfo.showMessageDialog(null, "Username taken");
+                 return; //ends method
             }
-        WrongInfo.showMessageDialog(this, "Enter In Real Errors later");
         }
+        for(int j=0;j<AllMembers.size();j++){ //Checks to make sure that the username isn't taken in MembersList
+            if (Username.equals(AllMembers.get(j).getusername())){
+                 WrongInfo.showMessageDialog(null, "Username taken");
+                 return; //ends method
+            }
+            if (Email.getText().equals(AllMembers.get(j).getInfo().getEmail())){//Checks to make sure Email isn't taken
+                 WrongInfo.showMessageDialog(null, "Email taken");
+                 return; //ends method
+            }
+        }
+         if(!Password.equals(NewConfirmPassword.getText())){
+             WrongInfo.showMessageDialog(this, "Your passwords don't match!");
+             return;
+         }
+         else{
+             PersonalInfo NewUser = new PersonalInfo(Name.getText(),Email.getText(),Age.getText(),Address.getText(),Zip.getText(),City.getText(),State.getText(),Country.getText());
+             AllMembers.add(new Member(Username,Password,NewUser));
+             Room.setCurrentUser(Username);
+             Message.setEnabled(true);
+             Send.setEnabled(true);
+             DNewUser.dispose();
+         }
+       }  
     }
 //</editor-fold>
     /**
